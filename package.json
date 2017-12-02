@@ -1,0 +1,35 @@
+{
+  "name": "fastify-knexjs-mock",
+  "version": "1.0.0",
+  "description": "Fastify KnexJS Mock Plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && tap test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chapuletta/fastify-knexjs-mock.git"
+  },
+  "keywords": [
+    "Fastify",
+    "KnexJS",
+    "Mock",
+    "Test"
+  ],
+  "author": "Chapuletta - nico.balduzzi@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chapuletta/fastify-knexjs-mock/issues"
+  },
+  "homepage": "https://github.com/chapuletta/fastify-knexjs-mock#readme",
+  "dependencies": {
+    "fastify-plugin": "^0.1.1",
+    "knex": "^0.14.2",
+    "mock-knex": "^0.4.0"
+  },
+  "devDependencies": {
+    "fastify": "^0.35.3",
+    "standard": "^10.0.3",
+    "tap": "^11.0.0"
+  }
+}
