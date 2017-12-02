@@ -20,6 +20,17 @@ fastify.get('/', (request, reply) => {
 })
 ```
 
+## Structure
+
+Fastify knexJS Mock structure:
+```
+{
+  tracker, // Attribute: Have the mock-knex tracker instance
+  mock, // Method: Mock the db instance selected
+  unmock // Method: Unmock the db instance selected
+}
+```
+
 ## Options
 
 KnexJS Mock DB configuration JSON object.
