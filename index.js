@@ -14,6 +14,7 @@ function fastifyKnexJSMock (fastify, opts, next) {
 
     fastify.addHook('onClose', function (instance, done) {
       mockKnex.unmock(db)
+      fastify.tracker.uninstall()
       done()
     })
   } catch (err) {
