@@ -21,11 +21,6 @@ function fastifyKnexJSMock (fastify, opts, next) {
     next(err)
   }
 
-  fastify.addHook('onRequest', function (request, reply, next) {
-    fastify.tracker.install()
-    next()
-  })
-
   fastify.addHook('onClose', function (instance, done) {
     try {
       mockKnex.unmock(mocked)
