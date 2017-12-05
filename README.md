@@ -15,6 +15,7 @@ npm install fastify-knexjs-mock --save
 fastify.register(require('fastify-knexjs-mock'), options, err => console.error(err))
 
 fastify.get('/', (request, reply) => {
+  console.log(fastify.knex) // Knex DB instance
   console.log(fastify.tracker) // Knex DB Mocked tracker
 })
 ```
@@ -24,6 +25,42 @@ fastify.get('/', (request, reply) => {
 KnexJS Mock DB configuration JSON object.
 
 https://github.com/colonyamerican/mock-knex
+
+## Test example
+
+```
+const { test } = require('tap')
+const { fastify } = require('./app')
+
+test('GET 200 `/users` route', async t => {
+  t.plan(2)
+
+  fastify.addHook('onRequest', (request, reply, next) => {
+    fastify.tracker.on('query', query => query.response([{
+      id: 1,
+      name: 'Test',
+      lastname: 'Test',
+      email: 'test@example.com'
+    }]))
+
+    next()
+  })
+
+  try {
+    const { statusCode, payload } = await fastify.inject({
+      method: 'GET',
+      url: '/users'
+    })
+
+    t.equal(statusCode, 200)
+    t.same(JSON.parse(payload)[0].email, 'test@example.com')
+  } catch (err) {
+    t.error(err)
+  } finally {
+    fastify.close(() => t.end())
+  }
+})
+```
 
 ## Version
 
