@@ -5,21 +5,36 @@ const knex = require('knex')
 const mockKnex = require('mock-knex')
 
 function fastifyKnexJSMock (fastify, opts, next) {
+  const { client, connection } = opts
+
+  const db = knex({ client, connection })
+  const mocked = knex({ client })
+
   try {
-    const db = knex(opts)
-    mockKnex.mock(db)
+    mockKnex.mock(mocked)
 
+    fastify.decorate('knex', db)
     fastify.decorate('tracker', mockKnex.getTracker())
-    next()
 
-    fastify.addHook('onClose', function (instance, done) {
-      mockKnex.unmock(db)
-      fastify.tracker.uninstall()
-      done()
-    })
+    next()
   } catch (err) {
     next(err)
   }
+
+  fastify.addHook('onRequest', function (request, reply, next) {
+    fastify.tracker.install()
+    next()
+  })
+
+  fastify.addHook('onClose', function (instance, done) {
+    try {
+      mockKnex.unmock(mocked)
+      fastify.tracker.uninstall()
+      db.destroy(done)
+    } catch (err) {
+      done(err)
+    }
+  })
 }
 
 module.exports = fastifyPlugin(fastifyKnexJSMock, '>=0.30.0')
