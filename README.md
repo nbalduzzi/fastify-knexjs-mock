@@ -32,10 +32,12 @@ https://github.com/colonyamerican/mock-knex
 const { test } = require('tap')
 const { fastify } = require('./app')
 
-test('GET 200 `/users` route', async t => {
-  t.plan(2)
+fastify.ready(() => {
+  fastify.tracker.install()
 
-  fastify.addHook('onRequest', (request, reply, next) => {
+  test('GET 200 `/users` route', async t => {
+    t.plan(2)
+
     fastify.tracker.on('query', query => query.response([{
       id: 1,
       name: 'Test',
@@ -43,28 +45,22 @@ test('GET 200 `/users` route', async t => {
       email: 'test@example.com'
     }]))
 
-    next()
+    try {
+      const { statusCode, payload } = await fastify.inject({
+        method: 'GET',
+        url: '/users'
+      })
+
+      t.equal(statusCode, 200)
+      t.same(JSON.parse(payload)[0].email, 'test@example.com')
+    } catch (err) {
+      t.error(err)
+    } finally {
+      fastify.close(() => t.end())
+    }
   })
-
-  try {
-    const { statusCode, payload } = await fastify.inject({
-      method: 'GET',
-      url: '/users'
-    })
-
-    t.equal(statusCode, 200)
-    t.same(JSON.parse(payload)[0].email, 'test@example.com')
-  } catch (err) {
-    t.error(err)
-  } finally {
-    fastify.close(() => t.end())
-  }
 })
 ```
-
-## Version
-
-v1.0.0
 
 ## Author
 
