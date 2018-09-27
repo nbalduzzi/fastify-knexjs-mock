@@ -3,15 +3,17 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Build Status](https://travis-ci.org/nbalduzzi/fastify-knexjs-mock.svg?branch=master)](https://travis-ci.org/nbalduzzi/fastify-knexjs-mock)
 
+[![NPM](https://nodei.co/npm/fastify-knexjs-mock.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/fastify-knexjs-mock/)
+
 ## Installation
 
-```
+```bash
 npm install fastify-knexjs-mock --save
 ```
 
 ## Usage
 
-```
+```bash
 fastify.register(require('fastify-knexjs-mock'), options, err => console.error(err))
 
 fastify.get('/', (request, reply) => {
@@ -28,7 +30,7 @@ https://github.com/colonyamerican/mock-knex
 
 ## Test example
 
-```
+```javascript
 const { test } = require('tap')
 const { fastify } = require('./app')
 
