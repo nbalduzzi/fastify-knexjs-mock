@@ -26,7 +26,7 @@ fastify.get('/', (request, reply) => {
 
 KnexJS Mock DB configuration JSON object.
 
-https://github.com/colonyamerican/mock-knex
+<https://github.com/colonyamerican/mock-knex>
 
 ## Test example
 
