@@ -40,7 +40,7 @@ fastify.ready(() => {
   test('GET 200 `/users` route', async t => {
     t.plan(2)
 
-    fastify.tracker.on('query', query => query.response([{
+    fastify.tracker.on('query', (query) => query.response([{
       id: 1,
       name: 'Test',
       lastname: 'Test',
